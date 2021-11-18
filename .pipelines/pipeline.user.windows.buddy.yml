@@ -38,7 +38,7 @@ build:
     - !!buildcommand
       name: 'Dotnet Build'
       command: '.pipelines\02_build.cmd'
-      arguments: '-p:OfficialRelease=True'
+      arguments: '-p:BuildProfile=Buddy'
       fail_on_stderr: false
       artifacts:
         - from: '.\bin\Release\src'
@@ -52,7 +52,7 @@ package:
     - !!buildcommand
       name: 'Dotnet Pack'
       command: '.pipelines\03_pack.cmd'
-      arguments: '-p:OfficialRelease=True'
+      arguments: '-p:BuildProfile=Buddy'
       fail_on_stderr: false
       artifacts:
         - from: '.\bin\Release\NuGet'

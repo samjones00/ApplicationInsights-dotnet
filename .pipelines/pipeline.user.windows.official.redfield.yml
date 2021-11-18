@@ -38,7 +38,7 @@ build:
     - !!buildcommand
       name: 'Dotnet Build'
       command: '.pipelines\02_build.cmd'
-      arguments: '-p:PublicRelease=True -p:StableRelease=True -p:OfficialRelease=True -p:Redfield=True'
+      arguments: '-p:BuildProfile=Official -p:Redfield=True'
       fail_on_stderr: false
       artifacts:
         - from: '.\bin\Release\src'
@@ -52,7 +52,7 @@ package:
     - !!buildcommand
       name: 'Dotnet Pack'
       command: '.pipelines\03_pack.cmd'
-      arguments: '-p:PublicRelease=True -p:StableRelease=True -p:OfficialRelease=True -p:Redfield=True'
+      arguments: '-p:BuildProfile=Official -p:Redfield=True'
       fail_on_stderr: false
       artifacts:
         - from: '.\bin\Release\NuGet'

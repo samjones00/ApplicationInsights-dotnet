@@ -46,7 +46,7 @@ jobs:
       run: dotnet restore ${{ matrix.solution }}
 
     - name: Build
-      run: dotnet build -p:NightlyBuild=True -p:PublicRelease=True ${{ matrix.solution }} --configuration Release --no-restore
+      run: dotnet build -p:BuildProfile=Nightly ${{ matrix.solution }} --configuration Release --no-restore
 
     - name: Find nuget directory # Find path of 'bin/release/nuget'
       shell: pwsh

@@ -7,7 +7,7 @@
 
     <!-- This is used to disable some build properties. -->
     <IsExamplesSolution Condition="'$(SolutionName)' == 'Examples' ">true</IsExamplesSolution>
-
+    
     <!-- This is used to change EventSource names. -->
     <DefineConstants Condition="'$(Redfield)' == 'True'">$(DefineConstants);REDFIELD</DefineConstants>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <SystemDiagnosticsDiagnosticSourcePkgVer>5.0.0</SystemDiagnosticsDiagnosticSourcePkgVer>
     <SystemDiagnosticsDiagnosticSourcePkgVer Condition="'$(Redfield)' == 'True'">4.7.0</SystemDiagnosticsDiagnosticSourcePkgVer>
   </PropertyGroup>
-
+  
   <Target Name="Info_Redfield"  BeforeTargets="Build" Condition="'$(Redfield)' == 'True'">
     <!-- 
     This flag is reserved for Codeless Attach products.
@@ -25,7 +25,7 @@
     -->
     <Message Text="Directory.Build.props: Redfield build detected." Importance="high"/>
   </Target>
-  
+
   <Target Name="Info_InternalSettings"  BeforeTargets="Build">
     <Message Text="Directory.Build.props: Internal_Logging is set to $(Internal_Logging)." Importance="high"/>
   </Target>
@@ -35,7 +35,35 @@
     <Message Text="Info: ProjectName: $(MSBuildProjectName)." Importance="high"/>
     <Message Text="Info: TargetFramework: $(TargetFramework)." Importance="high"/>
     <Message Text="Info: Directory.Build.props imported by $(MSBuildProjectName)." Importance="high"/>
+    <Message Text="Info: Build Profile: '$(BuildProfile)'." Importance="high"/>
   </Target>
+
+  <PropertyGroup Condition="'$(BuildProfile)' == 'Official'">
+    <!-- 
+    This is reserved for builds to be published at NuGet.org.
+    To use: dotnet build /p:BuildProfile=Official
+    -->
+    <OfficialRelease>True</OfficialRelease>
+    <StableRelease>True</StableRelease>
+    <PublicRelease>True</PublicRelease>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(BuildProfile)' == 'Nightly'">
+    <!-- 
+    This is reserved for nightly builds to be published at MyGet.org.
+    To use: dotnet build /p:BuildProfile=Nightly
+    -->
+    <PublicRelease>True</PublicRelease>
+    <NightlyBuild>True</NightlyBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(BuildProfile)' == 'Buddy'">
+    <!-- 
+    This is reserved for "buddy" builds which are run for PR validation.
+    To use: dotnet build /p:BuildProfile=Buddy
+    -->
+    <OfficialRelease>True</OfficialRelease>
+  </PropertyGroup>
 
   <PropertyGroup>
     <!-- EnlistmentRoot identifies the root directory of the repo and is used to dermine all other relative paths. -->
